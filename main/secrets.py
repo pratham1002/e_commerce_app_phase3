@@ -1,0 +1,6 @@
+secret_key='cx=z-g#)2%40q6-chlxke6xo2$p=%-jz&n!pdttc5nz7v0q7!l'
+database_name='le_bancho'
+database_password='pratham123'
+outh_key='164013765426-nh49r4jm2f7f948sgtqb514cavtktga9.apps.googleusercontent.com'
+outh_secret='3C8mKqt9sHZopNH6Fi3WaR5Y'
+email_password='pratham123'

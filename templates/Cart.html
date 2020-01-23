@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% static "images" as baseUrl %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+{{message}}
+<br>
+
+{% if mes in messages%}
+    {{mes}}
+{% endif %}
+<header>
+    <a href="CustomerHome">Back Home</a>
+    <br>
+    {{customer.username}}
+    <br>
+    <br>
+    {% if customer.profile_picture %}
+    <img src="{{customer.profile_picture.url}}" alt="picture" width="10%" height="10%">
+    <form action="ModifyCustomerProfilePicture" method="POST" enctype="multipart/form-data" accept="image/jpeg">
+        {% csrf_token %}
+        Change Profile Picture : <input type="file" name="picture">
+        <input type="submit">
+    </form>
+    {% else %}
+    <form action="ModifyCustomerProfilePicture" method="POST" enctype="multipart/form-data" accept="image/jpeg">
+        {% csrf_token %}
+        Add Profile Picture : <br> <input type="file" name="picture">
+        <br>
+        <input type="submit">
+    </form>
+    {% endif %}
+    Address : {{customer.address}}
+    <br>
+    <form action="ChangeAddress" method="POST">
+        {% csrf_token %}
+        Modify Address : <input type="text" name="address">
+        <input type="submit">
+    </form>
+    Wallet balance : {{customer.wallet_balance}}
+    <br>
+    <form action="AddMoney" method="POST">
+        {% csrf_token %}
+        Add Money : <input type="number" min="1" max="10000" name="amount">
+        <input type="submit">
+    </form>
+</header>
+
+{% for item in items %}
+<br>
+    ------------------------------------
+    <div>
+    <img src="{{item.item.picture.url}}" alt="picture" width="10%" height="10%">
+    {{item.item.name}}
+    <br>
+    Vendor : {{item.item.vendor.username}}
+    <br>
+    Description : {{item.item.description}}
+    <br>
+    Price : {{item.item.price}}
+    <br>
+    Available Quantity : {{item.item.available_quantity}}
+    <br>
+    Sold Quantity : {{item.item.sold_quantity}}
+    <br>
+    Requested Quantity : {{item.requested_quantity}}
+    <br>
+    Amount : {{item.cost}}
+    <form action="BuyItem" method="POST">
+        {% csrf_token %}
+        <button type="submit" value="{{item.id}}" name="item_id">Buy</button>
+    </form>
+    <form action="RemoveFromCart" method="POST">
+        {% csrf_token %}
+        <button type="submit" value="{{item.id}}" name="item_id">Remove</button>
+    </form>
+    </div> 
+    ------------------------------------
+{% endfor %}
+
+<footer>
+    <br><a href="Logout">Logout</a>
+</footer>
+
+
+{% else %}
+
+You are not Logged in
+
+{% endif %}
+
+{% endblock %}

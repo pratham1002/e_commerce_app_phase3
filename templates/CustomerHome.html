@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% static "images" as baseUrl %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+{{message}}
+<br>
+
+{% if mes in messages%}
+    {{mes}}
+{% endif %}
+<header>
+    {{customer.username}}
+    <br>
+    {% if customer.profile_picture %}
+    <img src="{{customer.profile_picture.url}}" alt="picture" width="10%" height="10%">
+    {% endif %}
+    <br>
+    Address : {{customer.address}}
+    <br>
+    Wallet Balance : {{customer.wallet_balance}}
+    <br>
+    <a href="Cart">View Cart</a>
+    <a href="CustomerOrderHistory">View Order History</a>
+</header>
+
+{% for item in items %}
+<br>
+    ------------------------------------
+    <div>
+    <img src="{{item.picture.url}}" alt="picture" width="10%" height="10%">
+    {{item.name}}
+    <br>
+    Vendor : {{item.vendor.username}}
+    <br>
+    Description : {{item.description}}
+    <br>
+    Price : {{item.price}}
+    <br>
+    Available Quantity : {{item.available_quantity}}
+    <br>
+    Sold Quantity : {{item.sold_quantity}}
+    <form action="AddItemToCart" method="POST">
+        {% csrf_token %}
+        Request Quantity : <input type="number" name="requested_quantity" min="1" max="{{item.available_quantity}}" required>
+        <button type="submit" value="{{item.id}}" name="item_id">Add to Cart</button>
+    </form>
+    </div> 
+    ------------------------------------
+{% endfor %}
+
+<footer>
+    <br><a href="Logout">Logout</a>
+</footer>
+
+
+{% else %}
+
+You are not Logged in
+
+{% endif %}
+
+{% endblock %}

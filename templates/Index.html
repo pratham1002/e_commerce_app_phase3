@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{{message}} <br>
+<br>
+<a href="{% url 'social:begin' 'google-oauth2' %}">
+    Use Google
+</a>
+<br>
+<a href="CustomerSignUp">Sign Up as Customer</a><br>
+<a href="CustomerLogin">Login as Customer</a><br>
+<a href="VendorSignUp">Sign Up as Vendor</a><br>
+<a href="VendorLogin">Login As Vendor</a><br>
+
+{% endblock %}

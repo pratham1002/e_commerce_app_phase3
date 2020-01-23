@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% static "images" as baseUrl %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+{{message}}
+<br>
+<header>
+    {% if vendor.profile_picture %}
+    <img src="{{vendor.profile_picture.url}}" alt="picture" width="10%" height="10%">
+    {% endif %}
+    {{vendor.username}}
+    <br>
+    {{vendor.address}}
+</header>
+<form action="AddItemToSell" method="POST" enctype="multipart/form-data" accept="image/jpeg">
+    {% csrf_token %}
+    Enter Item Name : <br> <input type="text" name="name">
+    <br>
+    Enter Item Picture : <br> <input type="file" name="picture">
+    <br>
+    Enter Item Description : <br> <input type="text" name="description">
+    <br>
+    Enter Item Price : <br> <input type="number" name="price">
+    <br>
+    Enter Available Quantity : <br> <input type="number" name="available_quantity">
+    <br>
+    <input type="submit">
+</form>
+<footer>
+    <br><a href="Logout">Logout</a>
+</footer>
+
+
+{% else %}
+
+You are not Logged in
+
+{% endif %}
+
+{% endblock %}

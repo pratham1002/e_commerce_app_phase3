@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+Hello {{name}} Please Enter your Password
+<br>
+{{message}} 
+<br>
+<form action="CreateVendor" method="POST">
+    {% csrf_token %}
+    Enter Username : <br> <input type="text" name="username" required>
+    <br>
+    Enter Password : <br> <input type="password" name="password1" required>
+    <br>
+    Re-enter Password : <br> <input type="password" name="password2" required>
+    <br>
+    <input type="submit">
+</form>
+{% endblock %}

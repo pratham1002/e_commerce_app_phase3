@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% static "images" as baseUrl %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+{{message}}
+<br>
+
+{% if mes in messages%}
+    {{mes}}
+{% endif %}
+<header>
+    {{current_user.username}}
+</header>
+<a href="CreateGoogleCustomer">Customer</a>
+<a href="CreateGoogleVendor">Vendor</a>
+<footer>
+    <br><a href="Logout">Logout</a>
+</footer>
+
+
+{% else %}
+
+You are not Logged in
+
+{% endif %}
+
+{% endblock %}

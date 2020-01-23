@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% static "images" as baseUrl %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+{{message}}
+<br>
+<header>
+    <a href="VendorHome">Back Home</a>
+    <br>
+    <a href="{% url 'export_orders_xls' %}">Excel Report</a>
+    <br>
+    {{vendor.username}}
+    <br>
+    {% if vendor.profile_picture %}
+    <img src="{{vendor.profile_picture.url}}" alt="picture" width="10%" height="10%">
+    {% endif %}
+    <br>
+    Address : {{vendor.address}}
+</header>
+{% for item in items %}
+<br>
+    ------------------------------------
+    <div>
+    {{item.item.name}}
+    <br>
+    <img src="{{item.item.picture.url}}" alt="picture" width="10%" height="10%">
+    <br>
+    Description : {{item.item.description}}
+    <br>
+    Price : {{item.item.price}}
+    <br>
+    Purchased By : {{item.customer.username}}
+    <br>
+    Delivery Address : {{item.customer.address}}
+    <br>
+    Quantity : {{item.quantity}}
+    <br>
+    Amount : {{item.cost}}
+    </div>
+    Delivered : {{item.order_complete}}
+    <br>
+    ------------------------------------
+
+{% endfor %}
+
+<footer>
+    <br><a href="Logout">Logout</a>
+</footer>
+
+
+{% else %}
+
+You are not Logged in
+
+{% endif %}
+
+{% endblock %}

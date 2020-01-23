@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% static "images" as baseUrl %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+{{message}}
+<br>
+
+{% if mes in messages%}
+    {{mes}}
+{% endif %}
+<header>
+    <a href="CustomerHome">Back Home</a> <br>
+    {{customer.username}}
+    <br>
+    {% if customer.profile_picture %}
+    <img src="{{customer.profile_picture.url}}" alt="picture" width="10%" height="10%">
+    {% endif %}
+    <br>
+    Address : {{customer.address}}
+    <br>
+    Wallet balance : {{customer.wallet_balance}}
+    <br>
+</header>
+
+{% for item in items %}
+<br>
+    ------------------------------------
+    <div>
+    {{item.name}}
+    <br>
+    <img src="{{item.item.picture.url}}" alt="picture" width="10%" height="10%">
+    <br>
+    Vendor : {{item.item.vendor.username}}
+    <br>
+    Description : {{item.item.description}}
+    <br>
+    Price : {{item.item.price}}
+    <br>
+    Quantity : {{item.quantity}}
+    <br>
+    Total Cost : {{item.cost}}
+    {% if item.order_complete is False %}
+    <form action="CompleteOrder" method="POST">
+        {% csrf_token %}
+        <button type="submit" value="{{item.id}}" name="item_id">Order Recieved</button>
+    </form>
+    {% endif %}
+    </div> 
+    ------------------------------------
+{% endfor %}
+
+<footer>
+    <br><a href="Logout">Logout</a>
+</footer>
+
+
+{% else %}
+
+You are not Logged in
+
+{% endif %}
+
+{% endblock %}
