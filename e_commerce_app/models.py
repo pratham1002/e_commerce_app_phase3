@@ -32,6 +32,7 @@ class SoldItem(models.Model):
     price=models.IntegerField(default=0)
     available_quantity=models.IntegerField(default=0)
     sold_quantity=models.IntegerField(default=0)
+    is_still_sold=models.BooleanField(default=True)
 
 class PurchasedItem(models.Model):
     customer=models.ForeignKey(Customer, on_delete=models.CASCADE)
