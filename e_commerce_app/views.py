@@ -26,20 +26,8 @@ def VendorSignUp(request):
     return render(request,'VendorSignUp.html')
 
 def CreateVendor(request):
-    current_user=request.user
-    try :
-        customer=Customer.objects.get(username=current_user.username)
-    except :
-        customer=None
-        
-    if customer is not None:
-        return redirect('/CustomerHome')
-    #print('New User Created')
-    vendor=Vendor(username=current_user.username, email=current_user.email)
-    vendor.save()
-    return redirect('/VendorHome')
-
     username=request.POST['username']
+    email=request.POST['email']
     password1=request.POST['password1']
     password2=request.POST['password2']
     
@@ -52,7 +40,7 @@ def CreateVendor(request):
             user=User.objects.create_user(username=username, password=password1)
             user.save()
 
-            vendor=Vendor(username=username)
+            vendor=Vendor(username=username, email=email)
             vendor.save()
 
             user=auth.authenticate(username=username,password=password1)
