@@ -119,7 +119,7 @@ def Logout(request):
 def VendorHome(request):
     current_user=request.user
     vendor=Vendor.objects.get(username=current_user.username)
-    items=SoldItem.objects.filter(vendor=vendor).order_by('id')
+    items=SoldItem.objects.filter(vendor=vendor).order_by('id').filter(is_still_sold=True)
 
     if vendor is None:
         return render(request, 'Hackerman.html')
@@ -232,7 +232,8 @@ def DeleteItem(request):
     item=SoldItem.objects.get(id=item)
 
     if current_user.username == item.vendor.username:
-        item.delete()
+        item.is_still_sold=False
+        item.save()
 
     return redirect('/VendorHome')
 
